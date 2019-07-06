@@ -1,0 +1,52 @@
+﻿
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+
+<div class="col-lg-8">
+    <div class="col-lg-offset-4">
+    <h1>Календарь</h1>
+    <h2 id="info"></h2>
+</div>
+    <table class="table  table-striped ">
+        <thead>
+            <tr>
+                <th>Пн</th>
+                <th>Вт</th>
+                <th>Ср</th>
+                <th>Чт</th>
+                <th>Пт</th>
+                <th>Сб</th>
+                <th>Вс</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="str1"></tr>
+
+            <tr id="str2"></tr>
+
+            <tr id="str3"></tr>
+
+            <tr id="str4"></tr>
+
+            <tr id="str5"></tr>
+
+            <tr id="str6"></tr>
+        </tbody>
+    </table>
+
+    <div class="col-md-1">
+        <button type="button" class="btn btn-secondary btn-lg">Предыдущий</button>
+    </div>
+    <div class="col-md-1 col-lg-offset-8">
+        <button type="button" class="btn btn-secondary btn-lg">Следующий</button>
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/Actions.js"></script>

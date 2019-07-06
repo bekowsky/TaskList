@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title – приложение ASP.NET</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/scripts/jquery-3.3.1.min.js")
+    @Scripts.Render("~/scripts/validate.min.js")
+    @Scripts.Render("~/scripts/jquery-1.10.2.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
+    <link href='@Url.Content("~/Content/themes/base/all.css")' rel="stylesheet" type="text/css" />
+    <script src='@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")' type="text/javascript"></script>
+    <link href='@Url.Content("~/Content/themes/base/jquery-ui.css")' rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+    <div class="container body-content">
+        <nav class="navbar navbar-expand-sm bg-light navbar-light justify-content-center">
+            <ul class="navbar-nav">
+                <li class="nav-item"  id="hui">
+                    <a class="nav-link" id="LayoutProfile" href="http://localhost:50250/Home/Profile ">Профиль</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="LayoutProjects" href="http://localhost:50250/Home/Projects">Проекты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="LayoutCalendar" href="/">Календарь</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div id="vertmenue" class="col-md-4 col-lg-4 navbar-container bg-light">
+                    <!-- Вертикальное меню -->
+                    <nav class="navbar navbar-expand-md navbar-light">
+                        <a class="navbar-brand" href="#">Список друзей</a>
+                        <form class="form-inline pull-xs-right">
+                            <input class="form-control" type="text" placeholder="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbar">
+                            <!-- Пункты вертикального меню -->
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#link-1">Друг 1</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#link-2">Друг 2</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#link-3">Друг 3</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#link-4">Друг 4</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#link-5">Друг 5</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+
+                @RenderBody()
+
+            </div>
+        </div>
+
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/Layout.js"></script>
+
+</body>
+</html>
+
+
+<style>
+
+    .navbar-container {
+        position: sticky;
+        top: 0;
+        overflow-y: auto;
+        height: 100vh;
+    }
+
+        .navbar-container .navbar {
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .navbar-container .navbar-collapse {
+            align-items: flex-start;
+        }
+
+        .navbar-container .nav {
+            flex-direction: column;
+            flex-wrap: nowrap;
+        }
+
+        .navbar-container .navbar-nav {
+            flex-direction: column !important;
+        }
+</style>
