@@ -1,11 +1,19 @@
 ﻿
 @{
     ViewBag.Title = "CreateProjects";
+    
 }
 
+
+
 <div class="col-md-8">
+   
+        <h2 class="col-md-offset-4">Название проекта</h2>
+            <hr>
+        <h3 class="col-md-offset-4">Описание проекта</h3>
 
 
+            
     <div class="col-md-12" id="TextArea">
         <h2>Список целей пуст</h2>
     </div>
@@ -13,22 +21,13 @@
         <input class="form-control" id="InputArea" style="height:auto" type="text" placeholder="Search">
     </div>
     <div class="col-md-1">
-        <button type="button" class="btn btn-secondary btn-lg" id="AddStep">Добавить</button>
+        <button type="button" class="btn btn-success btn-lg" id="AddStep">Добавить</button>
     </div>
 
 
 </div>
-<div id="myModalBox" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">О магазине</h4>
-            </div>
-            <div class="modal-body">
-                Здесь содержится краткая информация о магазина
-                <input class="form-control" style="height:auto" type="text" placeholder="Search">
-            </div>
-        </div>
-    </div>
-</div>
+
+
+
+
 <script src="~/Scripts/CreateProjects.js"></script>

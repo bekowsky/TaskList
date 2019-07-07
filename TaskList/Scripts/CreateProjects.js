@@ -25,5 +25,7 @@ function func() {
 }
 
 window.onload = function () {
-    $("#myModalBox").modal('show');
+    $("#LayoutProjects")
+        .parent()
+        .addClass("active");
 };
