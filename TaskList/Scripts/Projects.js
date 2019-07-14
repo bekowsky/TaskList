@@ -1,4 +1,4 @@
-﻿var goto = document.getElementById("CreateProjects");
+﻿var goto = document.getElementById("BtnCreateProjects");
 
 goto.onclick = function () {
     document.location.href = "http://localhost:50250/Home/CreateProjects";
