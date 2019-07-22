@@ -172,3 +172,14 @@ E:\TaskList\TaskList\obj\Debug\TaskList.csproj.CoreCompileInputs.cache
 E:\TaskList\TaskList\obj\Debug\TaskList.csproj.CopyComplete
 E:\TaskList\TaskList\obj\Debug\TaskList.dll
 E:\TaskList\TaskList\obj\Debug\TaskList.pdb
+E:\TaskList\TaskList\bin\Microsoft.AspNet.SignalR.Core.dll
+E:\TaskList\TaskList\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+E:\TaskList\TaskList\bin\Microsoft.Owin.dll
+E:\TaskList\TaskList\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\TaskList\TaskList\bin\Microsoft.Owin.Security.dll
+E:\TaskList\TaskList\bin\Owin.dll
+E:\TaskList\TaskList\bin\Microsoft.AspNet.SignalR.Core.xml
+E:\TaskList\TaskList\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+E:\TaskList\TaskList\bin\Microsoft.Owin.xml
+E:\TaskList\TaskList\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\TaskList\TaskList\bin\Microsoft.Owin.Security.xml
