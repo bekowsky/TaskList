@@ -2,8 +2,9 @@
   
     var chat = $.connection.myHub;
     // Объявление функции, которая хаб вызывает при получении сообщений
-    chat.client.addMessage = function (name) {
-        alert(name);
+    chat.client.enter = function () {
+
+       
     };
 
    

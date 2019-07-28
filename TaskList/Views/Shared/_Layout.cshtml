@@ -14,26 +14,53 @@
 
 <body>
 
+
     <div class="container body-content">
         <nav class="navbar navbar-expand-sm bg-light navbar-light justify-content-center">
             <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" id="LayoutInfo" href="http://localhost:50250/Home/Info">Главная</a>
+                </li>
                 <li class="nav-item" id="hui">
-                    <a class="nav-link" id="LayoutProfile" href="http://localhost:50250/Home/Profile ">Профиль</a>
+                    <a class="nav-link" id="LayoutProfile" href="http://localhost:50250/Home/Profile">Профиль</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="LayoutProjects" href="http://localhost:50250/Home/Projects">Проекты</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="LayoutCalendar" href="/">Календарь</a>
+                    <a class="nav-link" id="LayoutCalendar" href="http://localhost:50250/Home/Index">Календарь</a>
                 </li>
+                @{
+                    if (ViewBag.Share != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active"  href="http://localhost:50250/Home/Profile">@ViewBag.Share</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active"  href="http://localhost:50250/Home/LogOut">Выйти</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link"  href="http://localhost:50250/Home/LogIn">Войти</a>
+                        </li>
+                    }
+                }
+
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
                 </li>
             </ul>
         </nav>
-
+ 
         <div class="container-fluid">
             <div class="row">
+
+                @{ 
+                    if (ViewBag.Share != null)
+                    {
+
                 <div id="vertmenue" class="col-md-4 col-lg-4 navbar-container bg-light">
                     <!-- Вертикальное меню -->
                     <nav class="navbar navbar-expand-md navbar-light">
@@ -67,7 +94,8 @@
                         </div>
                     </nav>
                 </div>
-
+                        }
+                    }
                 @RenderBody()
 
             </div>
@@ -84,7 +112,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/Layout.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/SignalProject.js"></script>

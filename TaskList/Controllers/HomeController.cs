@@ -11,22 +11,65 @@ namespace TaskList.Controllers
 {
     public class HomeController : Controller
     {
-        int j = MyHub.hui;
+       
         public static LinkedList<User> Users = MyHub.Users;
+        public ActionResult Info()
+        {
+            if (User.Identity.IsAuthenticated)
+                ViewBag.Share = User.Identity.Name;
+            return View();
+        }
+        public ActionResult Find(string id)
+        {
+
+            if (User.Identity.IsAuthenticated)
+                ViewBag.Share = User.Identity.Name;
+            return View();
+        }
+
         public ActionResult Index()
         {
-            Users.AddLast(new Models.User());
+            if (User.Identity.IsAuthenticated)
+                ViewBag.Share = User.Identity.Name;
+            Users.AddLast(new User());
             return View();
         }
 
-        public ActionResult Projects()
+        public ActionResult Projects(User user)
         {
-           
+
+            if (User.Identity.IsAuthenticated)
+                ViewBag.Share = User.Identity.Name;
+            return View(user);
+        }
+
+
+
+        public ActionResult LogIn()
+        {
+            if (User.Identity.IsAuthenticated)
+                ViewBag.Share = User.Identity.Name;
             return View();
         }
 
+        [HttpPost]
+        public ActionResult LogIn(User user)
+        {
+            FormsAuthentication.SetAuthCookie(user.Name, true);
+            if (User.Identity.IsAuthenticated)
+                ViewBag.Share = User.Identity.Name;
+
+            return RedirectToAction("Info", "Home", user);
+        }
+        public ActionResult LogOut(User user)
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Info", "Home");
+        }
         public ActionResult CreateProjects()
         {
+            if (User.Identity.IsAuthenticated)
+                ViewBag.Share = User.Identity.Name;
             var result = "";
             if (User.Identity.IsAuthenticated)
             {
@@ -37,20 +80,8 @@ namespace TaskList.Controllers
 
         public ActionResult Profile()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
+            if (User.Identity.IsAuthenticated)
+                ViewBag.Share = User.Identity.Name;
             return View();
         }
     }

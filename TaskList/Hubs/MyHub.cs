@@ -11,7 +11,7 @@ namespace TaskList.Hubs
 {
     public class MyHub : Hub
     {
-       public static int hui = 5;
+       
         public static LinkedList<User> Users = new LinkedList<User> ();
 
         public void Send(string name)
@@ -21,16 +21,35 @@ namespace TaskList.Hubs
             Clients.Caller.addMessage(name);
         }
 
-        public void Authorization(string name)
+        public void LogIn(string name, string password)
         {
-
+            Users.AddLast(new User (name,password,Context.ConnectionId));
         }
+        public void LogOut ()
+        {
+            
+        }
+
 
         public override Task OnConnected()
         {
-            Users.AddLast(new User());
+
+            if (Context.User.Identity.IsAuthenticated && !IsExist(Users, Context.User.Identity.Name))
+            {
+                Users.AddLast(new User ("samp","kovp",""));
+                Clients.Caller.Enter();
+            }
+                
 
             return base.OnConnected();
+        }
+
+        public bool IsExist(IEnumerable<User> users, string name)
+        {
+            foreach (User u in users)
+                if (u.Name == name)
+                    return true;
+            return false;
         }
     }
 }

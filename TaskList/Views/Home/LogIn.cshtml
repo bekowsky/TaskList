@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "LogIn";
+
+}
+@model TaskList.Models.User
+
+<div class="col-md-offset-5" style="text-align:center">
+
+    @{
+        if (Model==null)
+        {
+
+            <h2>Вход</h2>
+            <br>
+            <form action="" method="post">
+                <input class=" form-control" name="name" type="text" placeholder="Логин">
+                <br>
+                <input class=" form-control" name="password" type="password" placeholder="Пароль">
+                <br>
+
+                <button class=" btn btn-success" type="submit">Войти</button>
+            </form>
+        }
+        else
+        {
+            <input type="hidden" name="name" id="name" value=@Model.Name>
+            <input type="hidden" name="password" id="password" value=@Model.Password>
+            <h3>@Model.Name Вы успешно вошли!</h3>
+        }
+    }
+</div>
+<script src="~/Scripts/Login.js"></script>
+
+    
