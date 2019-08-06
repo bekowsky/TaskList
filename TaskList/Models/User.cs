@@ -19,8 +19,8 @@ namespace TaskList.Models
         public DateTime WasOnline { get; set; }
         public byte Image { get; set; }
 
-       
-        public virtual ICollection <Project> Projects { get; set; }
+
+        public virtual ICollection<Project> Projects { get; set; }
 
         public User()
         {
@@ -30,7 +30,7 @@ namespace TaskList.Models
         public User(string name, string password, string key)
         {
             Name = name;
-           Password = password;
+            Password = password;
             Key = key;
             Projects = new List<Project>();
         }
