@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "SignUp";
+}
+
+<div class="col-md-offset-5" style="text-align:center">
+
+            <h2>Регистрация</h2>
+            <br>
+            <form action="" method="post">
+                <input class=" form-control" name="name" type="text" placeholder="Логин">
+                <br>
+                <input class=" form-control" name="password" type="password" placeholder="Пароль">
+                <br>
+                <input class=" form-control" name="email" type="email" placeholder="Email">
+
+                <br>
+                <input class=" form-control" name="phone" type="number" placeholder="Телефон">
+                <br>
+
+                <select name ="country"  multiple class="form-control">
+                    <option>Россия</option>
+                    <option>Белорусия</option>
+                    <option>Украина</option>
+                    <option>Казахстан</option>
+                </select>
+                <br>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Gender" id="Radios1" value="man" checked>
+                    <label class="form-check-label" for="Radios1">
+                        Мужской
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="Gender" id="Radios2" value="woman">
+                    <label class="form-check-label" for="Radios2">
+                        Женский
+                    </label>
+                </div>
+                <br>
+                <button class=" btn btn-success" type="submit">Зарегистрироваться</button>
+            </form>
+    
+</div>
+

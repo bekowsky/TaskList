@@ -183,3 +183,9 @@ E:\TaskList\TaskList\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
 E:\TaskList\TaskList\bin\Microsoft.Owin.xml
 E:\TaskList\TaskList\bin\Microsoft.Owin.Host.SystemWeb.xml
 E:\TaskList\TaskList\bin\Microsoft.Owin.Security.xml
+E:\TaskList\TaskList\bin\EntityFramework.dll
+E:\TaskList\TaskList\bin\EntityFramework.SqlServer.dll
+E:\TaskList\TaskList\bin\EntityFramework.xml
+E:\TaskList\TaskList\bin\EntityFramework.SqlServer.xml
+E:\TaskList\TaskList\bin\ru\Microsoft.AspNet.SignalR.Core.resources.dll
+E:\TaskList\TaskList\bin\ru\Microsoft.AspNet.SignalR.SystemWeb.resources.dll

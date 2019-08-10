@@ -15,12 +15,12 @@ namespace TaskList.Models
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
         public string Key { get; set; }
-        public ICollection<Row> Content { get; set; }
+        public ICollection<Row> Rows { get; set; }
         public virtual ICollection<User> Users { get; set; }
 
         public Project()
         {
-            Content = new List<Row>();
+           Rows = new List<Row>();
             Users = new List<User>();
         }
     }

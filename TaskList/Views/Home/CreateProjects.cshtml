@@ -4,13 +4,14 @@
     
 }
 
+@model TaskList.Models.Project
 
 
 <div class="col-md-8">
    
-        <h2 class="col-md-offset-4">Название проекта</h2>
+        <h2 class="col-md-offset-4">@Model.Name</h2>
             <hr>
-        <h3 class="col-md-offset-4">Описание проекта</h3>
+        <h3 class="col-md-offset-4">@Model.Describtion</h3>
 
 
             <div class="row">

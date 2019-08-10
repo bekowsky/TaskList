@@ -8,9 +8,9 @@
 <div class="col-md-offset-5" style="text-align:center">
 
     @{
-        if (Model==null)
-        {
-
+                if (Model==null)
+                {
+                    
             <h2>Вход</h2>
             <br>
             <form action="" method="post">
@@ -20,6 +20,7 @@
                 <br>
 
                 <button class=" btn btn-success" type="submit">Войти</button>
+                <button class=" btn btn-warning" onClick='location.href="http://localhost:50250/Home/SignUp"' type="submit">Зарегистрироваться</button>
             </form>
         }
         else

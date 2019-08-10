@@ -1,7 +1,6 @@
 ﻿var add = document.getElementById("AddStep");
 var num = 0;
 var str = '';
-var btnstr = '';
 add.onclick = function () {
     if (!isEmpty(document.getElementById("InputArea").value)) {
         if (num != 0) {
@@ -17,8 +16,7 @@ add.onclick = function () {
         str += '</p>';
         document.getElementById("TextArea").innerHTML = str;
 
-        btnstr += '<button type="button" class="btn btn-success btn-lg" ">Тест</button>';
-        document.getElementById("BtnArea").innerHTML = btnstr;
+
 
         func(id);
         num++;

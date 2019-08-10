@@ -13,10 +13,13 @@ namespace TaskList.Controllers
     {
        
         public static LinkedList<User> Users = MyHub.Users;
+        TaskContext db = new TaskContext();
         public ActionResult Info()
         {
             if (User.Identity.IsAuthenticated)
                 ViewBag.Share = User.Identity.Name;
+
+
             return View();
         }
         public ActionResult Find(string id)
@@ -24,7 +27,14 @@ namespace TaskList.Controllers
 
             if (User.Identity.IsAuthenticated)
                 ViewBag.Share = User.Identity.Name;
-            return View();
+            Project model = null;
+            foreach (Project project in db.Projects)
+                if (project.Key == id)
+                {
+                    model = project;
+                    break;
+                }
+            return View(model);
         }
 
         public ActionResult Index()
@@ -35,11 +45,14 @@ namespace TaskList.Controllers
             return View();
         }
 
-        public ActionResult Projects(User user)
+        public ActionResult Projects()
         {
 
             if (User.Identity.IsAuthenticated)
                 ViewBag.Share = User.Identity.Name;
+
+            User user = db.FindByName(User.Identity.Name);
+
             return View(user);
         }
 
@@ -52,30 +65,56 @@ namespace TaskList.Controllers
             return View();
         }
 
+        public ActionResult SignUp()
+        {
+           
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SignUp(User user,string Gender)
+        {
+            if (user != null)
+            {
+                if (Gender == "man")
+                    user.IsMale = true;
+
+                user.Date = DateTime.Now;
+                user.WasOnline = DateTime.Now;
+                if (ModelState.IsValid)
+                {
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    FormsAuthentication.SetAuthCookie(user.Name, true);
+                    return RedirectToAction("Info", "Home");
+                }
+            }
+            return View(user);
+        }
+
         [HttpPost]
         public ActionResult LogIn(User user)
         {
-            FormsAuthentication.SetAuthCookie(user.Name, true);
-            if (User.Identity.IsAuthenticated)
-                ViewBag.Share = User.Identity.Name;
-
-            return RedirectToAction("Info", "Home", user);
+            if (db.IsCorrect(user.Name, user.Password))
+            {             
+                FormsAuthentication.SetAuthCookie(user.Name, true);
+                return RedirectToAction("Info", "Home");
+            }
+            return View(user);
         }
-        public ActionResult LogOut(User user)
+        public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Info", "Home");
         }
-        public ActionResult CreateProjects()
+        public ActionResult CreateProjects(string key)
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated) 
                 ViewBag.Share = User.Identity.Name;
-            var result = "";
-            if (User.Identity.IsAuthenticated)
-            {
-                result = "Ваш логин: " + User.Identity.Name;
-            }
-            return View();
+            Project project = db.FindByKey(key);
+           
+
+            return View(project);
         }
 
         public ActionResult Profile()
@@ -84,5 +123,7 @@ namespace TaskList.Controllers
                 ViewBag.Share = User.Identity.Name;
             return View();
         }
+
+     
     }
 }
