@@ -21,7 +21,7 @@ namespace TaskList.Hubs
         {
 
             string key = GenRandomString(7) + Convert.ToString(db.Projects.OrderByDescending(x => x.Id).FirstOrDefault().Id);          
-            Project project = new Project { Name = name, Describtion = description, IsDone = false, DateStart = DateTime.Now, DateEnd = DateTime.Now, Key = key };        
+            Project project = new Project { Name = name, Describtion = description, IsDone = false,  Key = key };        
             User user =  db.FindByName(Context.User.Identity.Name);
             user.Projects.Add(project);
             db.SaveChanges();
@@ -36,7 +36,21 @@ namespace TaskList.Hubs
             Clients.Caller.removeReady();
         }
         
-   
+        public void getProjects(int mounth)
+        {
+
+        }
+
+        public void AddStep(string step,string key)
+        {
+
+            Row row = new Row { Text = step };
+            db.FindByKey(key).Rows.Add(row);
+            db.SaveChanges();
+           List<Row> hui =  db.FindByKey(key).Rows.ToList();
+            Project r = db.FindByKey(key);
+
+        }
 
         public void LogIn(string name, string password)
         {
@@ -44,21 +58,30 @@ namespace TaskList.Hubs
         }
         public void LogOut ()
         {
-            
+
+
+         
+
         }
 
 
         public override Task OnConnected()
         {
-
+          
             if (Context.User.Identity.IsAuthenticated && !IsExist(Users, Context.User.Identity.Name))
             {
                 Users.AddLast(db.FindByName(Context.User.Identity.Name));
-                Clients.Caller.Enter();
+                Clients.Caller.enter();
             }
                 
 
             return base.OnConnected();
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            Users.Remove(db.FindByName(Context.User.Identity.Name));
+            return base.OnDisconnected(stopCalled);
         }
 
         public bool IsExist(IEnumerable<User> users, string name)

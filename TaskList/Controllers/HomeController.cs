@@ -24,16 +24,13 @@ namespace TaskList.Controllers
         }
         public ActionResult Find(string id)
         {
-
+           
             if (User.Identity.IsAuthenticated)
                 ViewBag.Share = User.Identity.Name;
-            Project model = null;
-            foreach (Project project in db.Projects)
-                if (project.Key == id)
-                {
-                    model = project;
-                    break;
-                }
+            Project model = db.FindByKey(id);
+            foreach (Row row in db.Rows)
+                if (row.Id == model.Id)
+                    model.Rows.Add(row);
             return View(model);
         }
 
@@ -41,8 +38,9 @@ namespace TaskList.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 ViewBag.Share = User.Identity.Name;
-            Users.AddLast(new User());
-            return View();
+            User user = db.FindByName(User.Identity.Name);
+
+            return View(user);
         }
 
         public ActionResult Projects()

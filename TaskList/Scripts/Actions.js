@@ -1,4 +1,6 @@
-﻿function ShowDates(max, day) {
+﻿
+
+function ShowDates(max, day) {
     var i, j;
     var days = 1;
     for (i = 1; i < 7; i++) {
@@ -17,6 +19,12 @@
     }
  
 }
+
+function Prev(Projects) {
+   var prj = Projects;
+}
+
+
 
 
 window.onload = function () {

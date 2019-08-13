@@ -6,7 +6,7 @@
 
 @model TaskList.Models.Project
 
-
+<input type="hidden" id ="ProjectKey" value="@Model.Key">
 <div class="col-md-8">
    
         <h2 class="col-md-offset-4">@Model.Name</h2>
@@ -15,9 +15,20 @@
 
 
             <div class="row">
-    <div class="col-md-6 col-md-offset-2" id="TextArea">
-        <h2>Список целей пуст</h2>
-    </div>
+                <div class="col-md-6 col-md-offset-2" id="TextArea">
+                    @{ if (Model.Rows == null)
+                        {
+                        <h2>Список целей пуст</h2>
+                        } else
+                        {
+                            int i = 0;
+                            foreach (TaskList.Models.Row row in Model.Rows)
+                            {
+                                <p id="step"@i class="text-center">@row.Text</p>
+                            }
+                        }
+                        }
+                </div>
     <div class="col-md-1" id="BtnArea">
         
     </div>

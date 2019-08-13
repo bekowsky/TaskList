@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
+@model TaskList.Models.Project
 
 
 
@@ -40,10 +40,10 @@
     </table>
 
     <div class="col-md-1">
-        <button type="button" class="btn btn-secondary btn-lg">Предыдущий</button>
+        <button type="button" class="btn btn-secondary btn-lg CalendarChoice "  id = "PrevBtn">Предыдущий</button>
     </div>
     <div class="col-md-1 col-lg-offset-8">
-        <button type="button" class="btn btn-secondary btn-lg">Следующий</button>
+        <button type="button" class="btn btn-secondary btn-lg CalendarChoice"  id="NextBtn">Следующий</button>
     </div>
 </div>
 

@@ -9,24 +9,24 @@ add.onclick = function () {
 
         }
         var id = "step" + num;
-        str += '<p style="" id =' + id + ' class = "text-center">';
+        str = '<p style="" id =' + id + ' class = "">';
 
         str += document.getElementById("InputArea").value;
         str = str.replace(/(?:\r\n|\r|\n)/g, '<br />');
         str += '</p>';
-        document.getElementById("TextArea").innerHTML = str;
+        document.getElementById("TextArea").innerHTML += str;
 
 
 
         func(id);
         num++;
     }
-    document.getElementById("InputArea").value = '';
+    
 }
 
 function func() {
     for (var i = 0; i < num+1; i ++)
-    document.getElementById('step'+ i).style.backgroundColor = 'gainsboro';
+   document.getElementById('step'+ i).style.backgroundColor = 'gainsboro';
     
 }
 function isEmpty(line) {
