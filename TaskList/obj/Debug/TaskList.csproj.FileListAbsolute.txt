@@ -189,3 +189,6 @@ E:\TaskList\TaskList\bin\EntityFramework.xml
 E:\TaskList\TaskList\bin\EntityFramework.SqlServer.xml
 E:\TaskList\TaskList\bin\ru\Microsoft.AspNet.SignalR.Core.resources.dll
 E:\TaskList\TaskList\bin\ru\Microsoft.AspNet.SignalR.SystemWeb.resources.dll
+E:\TaskList\TaskList\obj\Debug\TaskList.Migrations.InitialCreate.resources
+E:\TaskList\TaskList\obj\Debug\TaskList.csproj.GenerateResource.cache
+E:\TaskList\TaskList\obj\Debug\TaskList.Migrations.MigrateDB.resources

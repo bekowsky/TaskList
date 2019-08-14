@@ -5,7 +5,7 @@
 }
 @model TaskList.Models.User
 
-<div class="col-xs-8" style="padding-left:30px; height:20%">
+<div class="col-md-8" style="padding-left:30px; height:20%">
     @{ 
       
         foreach (TaskList.Models.Project project in Model.Projects)
@@ -15,7 +15,7 @@
             string id2 = "#InfoProject" + project.Id;
             string id3 = "#EditProject" + project.Id;
             <div class="row">
-                <div clas="col-xs-7" style="background-color:whitesmoke; width: 85%;">
+                <div clas="col-md-7" style="background-color:whitesmoke; width: 85%;">
 
 
                     <h3 id="ProjectName"><a class="text-primary" href="/@project.Key">@project.Name</a></h3>
@@ -26,7 +26,7 @@
 
                 </div>
 
-                <div class="col-xs-1">
+                <div class="col-md-1">
                     <div class="btn-group-vertical">
                         
                             

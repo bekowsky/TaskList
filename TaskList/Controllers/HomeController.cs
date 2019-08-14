@@ -18,7 +18,7 @@ namespace TaskList.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 ViewBag.Share = User.Identity.Name;
-
+            
 
             return View();
         }
@@ -28,9 +28,6 @@ namespace TaskList.Controllers
             if (User.Identity.IsAuthenticated)
                 ViewBag.Share = User.Identity.Name;
             Project model = db.FindByKey(id);
-            foreach (Row row in db.Rows)
-                if (row.Id == model.Id)
-                    model.Rows.Add(row);
             return View(model);
         }
 

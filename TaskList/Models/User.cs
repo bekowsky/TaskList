@@ -27,10 +27,11 @@ namespace TaskList.Models
 
 
         public virtual ICollection<Project> Projects { get; set; }
-
+        public virtual ICollection<Friend> Friends { get; set; }
         public User()
         {
             Projects = new List<Project>();
+            Friends = new List<Friend>();
         }
 
         public User(string name, string password, string key)
@@ -39,6 +40,7 @@ namespace TaskList.Models
             Password = password;
             Key = key;
             Projects = new List<Project>();
+            Friends = new List<Friend>();
         }
     }
 

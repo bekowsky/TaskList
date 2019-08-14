@@ -155,6 +155,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\MyHub.cs" />
+    <Compile Include="Migrations\201907281505363_InitialCreate.cs" />
+    <Compile Include="Migrations\201907281505363_InitialCreate.Designer.cs">
+      <DependentUpon>201907281505363_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908141656230_MigrateDB.cs" />
+    <Compile Include="Migrations\201908141656230_MigrateDB.Designer.cs">
+      <DependentUpon>201908141656230_MigrateDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Friend.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Row.cs" />
     <Compile Include="Models\TaskContext.cs" />
@@ -235,6 +246,14 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201907281505363_InitialCreate.resx">
+      <DependentUpon>201907281505363_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908141656230_MigrateDB.resx">
+      <DependentUpon>201908141656230_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

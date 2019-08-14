@@ -9,7 +9,8 @@
 <input type="hidden" id="ProjectKey" value="@Model.Key">
 <div class="col-md-8">
 
-    <h2 class="col-md-offset-4">@Model.Name</h2>
+    <h2 class="col-md-offset-4">@Model.Name <button type="button" style="height:48px" data-toggle="modal" data-target="#ProjectSettings" class="btn btn-info col-md-offset-4">Свойства</button></h2>
+  
     <hr>
     <h3 class="col-md-offset-4">@Model.Describtion</h3>
 
@@ -25,13 +26,13 @@
                     int i = 0;
                     foreach (TaskList.Models.Row row in Model.Rows)
                     {
-                        <p id="step"@i >@row.Text</p>
+                        <p id="step" @i>@row.Text</p>
                     }
                 }
             }
         </div>
         <div class="col-md-1" id="BtnArea">
-           
+
         </div>
     </div>
     <div class="col-md-5 col-md-offset-3">
@@ -45,7 +46,32 @@
 
 </div>
 
-
+<div class="modal fade" id="ProjectSettings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Создание проекта</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Название проекта</h3>
+                <input class="form-control" id="NameCreateProject" style="height:auto" type="text" placeholder="Search">
+            </div>
+            <div class="modal-body">
+                <h3>Описание</h3>
+                <textarea class="form-control" id="DescriptionCreateProject" rows="3"></textarea>
+                <h3>Дата</h3>
+                <input class="form-control" type="date" value="2019-02-11" id="example-date-input">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Отменить</button>
+                <button type="button" class="btn btn-success" id="BtnCreateProjects">Создать</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script src="~/Scripts/CreateProjects.js"></script>

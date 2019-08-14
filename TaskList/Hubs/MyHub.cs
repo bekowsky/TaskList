@@ -44,12 +44,9 @@ namespace TaskList.Hubs
         public void AddStep(string step,string key)
         {
 
-            Row row = new Row { Text = step };
-            db.FindByKey(key).Rows.Add(row);
+           Row row = new Row { Text = step };
+          db.FindByKey(key).Rows.Add(row);
             db.SaveChanges();
-           List<Row> hui =  db.FindByKey(key).Rows.ToList();
-            Project r = db.FindByKey(key);
-
         }
 
         public void LogIn(string name, string password)
