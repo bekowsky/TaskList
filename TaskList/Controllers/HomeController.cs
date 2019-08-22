@@ -12,13 +12,13 @@ namespace TaskList.Controllers
     public class HomeController : Controller
     {
        
-        public static LinkedList<User> Users = MyHub.Users;
+
         TaskContext db = new TaskContext();
         public ActionResult Info()
         {
             if (User.Identity.IsAuthenticated)
-                ViewBag.Share = User.Identity.Name;
-            
+                ViewBag.Share = db.FindByName(User.Identity.Name);
+
 
             return View();
         }
@@ -26,7 +26,7 @@ namespace TaskList.Controllers
         {
            
             if (User.Identity.IsAuthenticated)
-                ViewBag.Share = User.Identity.Name;
+                ViewBag.Share =db.FindByName(User.Identity.Name);
             Project model = db.FindByKey(id);
             return View(model);
         }
@@ -34,17 +34,17 @@ namespace TaskList.Controllers
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
-                ViewBag.Share = User.Identity.Name;
+                ViewBag.Share = db.FindByName(User.Identity.Name);
             User user = db.FindByName(User.Identity.Name);
 
-            return View(user);
+            return View();
         }
 
         public ActionResult Projects()
         {
 
             if (User.Identity.IsAuthenticated)
-                ViewBag.Share = User.Identity.Name;
+                ViewBag.Share = db.FindByName(User.Identity.Name);
 
             User user = db.FindByName(User.Identity.Name);
 
@@ -56,7 +56,7 @@ namespace TaskList.Controllers
         public ActionResult LogIn()
         {
             if (User.Identity.IsAuthenticated)
-                ViewBag.Share = User.Identity.Name;
+                ViewBag.Share = db.FindByName(User.Identity.Name);
             return View();
         }
 
@@ -104,8 +104,8 @@ namespace TaskList.Controllers
         }
         public ActionResult CreateProjects(string key)
         {
-            if (User.Identity.IsAuthenticated) 
-                ViewBag.Share = User.Identity.Name;
+            if (User.Identity.IsAuthenticated)
+                ViewBag.Share = db.FindByName(User.Identity.Name);
             Project project = db.FindByKey(key);
            
 
@@ -115,7 +115,7 @@ namespace TaskList.Controllers
         public ActionResult Profile()
         {
             if (User.Identity.IsAuthenticated)
-                ViewBag.Share = User.Identity.Name;
+                ViewBag.Share = db.FindByName(User.Identity.Name);
             return View();
         }
 

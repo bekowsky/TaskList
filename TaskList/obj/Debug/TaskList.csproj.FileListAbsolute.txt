@@ -192,3 +192,4 @@ E:\TaskList\TaskList\bin\ru\Microsoft.AspNet.SignalR.SystemWeb.resources.dll
 E:\TaskList\TaskList\obj\Debug\TaskList.Migrations.InitialCreate.resources
 E:\TaskList\TaskList\obj\Debug\TaskList.csproj.GenerateResource.cache
 E:\TaskList\TaskList\obj\Debug\TaskList.Migrations.MigrateDB.resources
+E:\TaskList\TaskList\obj\Debug\TaskList.Migrations.UpdateDB.resources

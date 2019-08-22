@@ -163,8 +163,13 @@
     <Compile Include="Migrations\201908141656230_MigrateDB.Designer.cs">
       <DependentUpon>201908141656230_MigrateDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908141734404_UpdateDB.cs" />
+    <Compile Include="Migrations\201908141734404_UpdateDB.Designer.cs">
+      <DependentUpon>201908141734404_UpdateDB.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Friend.cs" />
+    <Compile Include="Models\LightUser.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Row.cs" />
@@ -253,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908141656230_MigrateDB.resx">
       <DependentUpon>201908141656230_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908141734404_UpdateDB.resx">
+      <DependentUpon>201908141734404_UpdateDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

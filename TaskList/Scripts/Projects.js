@@ -1,12 +1,12 @@
 ﻿
 
-/*
+
 window.onload = function () {
     $("#LayoutProjects")
         .parent()
         .addClass("active");
 };
-*/
+
 
 
 function a() {

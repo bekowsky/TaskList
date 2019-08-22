@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Security;
 using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
 using TaskList.Models;
 
 namespace TaskList.Hubs
@@ -15,7 +16,8 @@ namespace TaskList.Hubs
     public class MyHub : Hub
     {
        
-        public static LinkedList<User> Users = new LinkedList<User> ();
+       
+       public static Dictionary<string, string> Users = new Dictionary<string, string>();
         public TaskContext db = new TaskContext();
         public void Create(string name, string description)
         {
@@ -36,9 +38,53 @@ namespace TaskList.Hubs
             Clients.Caller.removeReady();
         }
         
-        public void getProjects(int mounth)
+
+        public void AddFriend (string name)
         {
 
+            User user = db.FindByName(Context.User.Identity.Name);
+            bool AllowAdding = true;
+            foreach (Friend friend in db.FindByName(name).Friends)
+                if (friend.Name == Context.User.Identity.Name)
+                    AllowAdding = false;
+            if (AllowAdding)
+            {
+                db.FindByName(name).Friends.Add(new Friend { Name = user.Name, Online = DateTime.MinValue, IsAssept = false, Image = user.Image });
+                db.SaveChanges();
+            }
+        }
+
+        public void FriendshipAccepted(string name)
+        {
+            db.FindByName(Context.User.Identity.Name).Friends.Single(x => x.Name == name).IsAssept = true;
+            db.FindByName(name).Friends.Single(x => x.Name == Context.User.Identity.Name).IsAssept = true;
+            db.SaveChanges();
+            string str = " теперь ваш друг";
+            if (Users.ContainsKey(name))
+                Clients.Client(Users[name]).notification(" теперь ваш друг!");
+            Clients.Caller.notification(str);
+
+        }
+        public void DeleteFriend(string name)
+        {
+            db.FindByName(Context.User.Identity.Name).Friends.Single(x => x.Name == name).IsAssept = false;
+            db.FindByName(name).Friends.Remove(db.FindByName(name).Friends.Single(x => x.Name == Context.User.Identity.Name));
+            db.SaveChanges();
+            if (Users.ContainsKey(name))
+                Clients.Client(Users[name]).notification(Context.User.Identity.Name + " и вы больше не друзья!");
+            Clients.Caller.notification(name + " и вы больше не друзья!");
+        }
+      
+        public void FindUsers(string text)
+        {
+            List<string> users = new List<string>();
+            User Me = db.FindByName(Context.User.Identity.Name);
+            foreach (User user in db.Users)
+                if (user.Name.Contains(text) && user.Name != Context.User.Identity.Name )
+                    users.Add(user.Name);
+           
+
+            Clients.Caller.returnUsers(users);
         }
 
         public void AddStep(string step,string key)
@@ -49,25 +95,15 @@ namespace TaskList.Hubs
             db.SaveChanges();
         }
 
-        public void LogIn(string name, string password)
-        {
-            Users.AddLast(new User (name,password,Context.ConnectionId));
-        }
-        public void LogOut ()
-        {
 
-
-         
-
-        }
 
 
         public override Task OnConnected()
         {
           
-            if (Context.User.Identity.IsAuthenticated && !IsExist(Users, Context.User.Identity.Name))
+            if (Context.User.Identity.IsAuthenticated && !Users.ContainsKey(Context.User.Identity.Name))
             {
-                Users.AddLast(db.FindByName(Context.User.Identity.Name));
+                Users.Add(Context.User.Identity.Name, Context.ConnectionId);
                 Clients.Caller.enter();
             }
                 
@@ -77,17 +113,12 @@ namespace TaskList.Hubs
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            Users.Remove(db.FindByName(Context.User.Identity.Name));
+            Users.Remove(Context.User.Identity.Name);
             return base.OnDisconnected(stopCalled);
         }
 
-        public bool IsExist(IEnumerable<User> users, string name)
-        {
-            foreach (User u in users)
-                if (u.Name == name)
-                    return true;
-            return false;
-        }
+
+
 
         string GenRandomString(int Length)
         {

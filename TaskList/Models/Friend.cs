@@ -11,6 +11,7 @@ namespace TaskList.Models
         public string Name { get; set; }
         public byte Image { get; set; }
         public DateTime Online { get; set; }
+        public bool IsAssept { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
         public int? UserId { get; set; }
         public User User { get; set; }
