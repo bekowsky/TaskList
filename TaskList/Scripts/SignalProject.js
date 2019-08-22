@@ -1,5 +1,6 @@
-﻿$(function () {
-  
+﻿
+$(function () {
+
     var chat = $.connection.myHub;
     // Объявление функции, которая хаб вызывает при получении сообщений
     chat.client.createReady = function (key) {
@@ -13,7 +14,7 @@
         document.location.href = "http://localhost:50250/Home/Projects";
 
     };
-
+  
     chat.client.returnUsers = function (users) {
         if (document.getElementsByClassName("SearchUsers")[0] != null) {
             $('.SearchUsers').remove();
@@ -35,12 +36,53 @@
             liElem.appendChild(aElem);
             liElem.appendChild(ButtonElem);
             liElem.className = "nav-item  SearchUsers";
-            
+          
 
         document.getElementsByClassName("navbar-nav")[1].appendChild(liElem);
         }
        
     };
+
+    chat.client.refreshAdding = function (message) {
+        var aElem = document.createElement('a');
+        aElem.className = "nav-link friend";
+        aElem.innerText = message;
+        var ButtonElem = document.createElement('button');
+        ButtonElem.type = "button";
+        ButtonElem.className = "btn-xs btn-danger";
+        ButtonElem.innerText = "Удалить";
+        ButtonElem.onclick = function () { DeleteFriend(message); };
+        var liElem = document.createElement('li');
+        liElem.className = "DeleteFriend nav-item";
+        liElem.id = "friend-" + message;
+        liElem.appendChild(aElem);
+        liElem.appendChild(ButtonElem);
+        document.getElementById("friend-list").removeChild(document.getElementById("subscriber-" + message));
+        document.getElementById("friend-list").prepend(document.getElementById("divider"));
+            //appendChild(liElem);
+    };
+
+    chat.client.refreshDeletion = function (message) {
+        var aElem = document.createElement('a');
+        aElem.className = "nav-link friend";
+        aElem.innerText = message;
+        var ButtonElem = document.createElement('button');
+        ButtonElem.type = "button";
+        ButtonElem.className = "AcceptFriend btn-xs btn-success";
+        ButtonElem.innerText = "Принять";
+        ButtonElem.onclick = function () { AcceptFriend(message); };
+        var liElem = document.createElement('li');
+        liElem.className = "nav-item";
+        liElem.id = "subscriber-" + message;
+        liElem.appendChild(aElem);
+        liElem.appendChild(ButtonElem);
+
+        document.getElementById("friend-list").removeChild(document.getElementById("friend-" + message));
+       document.getElementById("friend-list").appendChild(liElem);
+        
+    };
+
+
     chat.client.notification = function (message) {
         var liElem = document.createElement('li');
         var liDevider = document.createElement('li');
@@ -74,31 +116,25 @@
             chat.server.getProjects(Mounth);
         });
 
-   
+        $('.AcceptFriend').click(function () {
+            var name = this.parentNode.firstChild.nextSibling.innerHTML;
+            chat.server.addFriend(name);
+            chat.server.friendshipAccepted(name);
+        });
+        $('.DeleteFriend').click(function () {
+            var name = this.parentNode.firstChild.nextSibling.innerHTML;
+            chat.server.deleteFriend(name);
+        });
+
 
         $('#BtnCreateProjects').click(function () {
             
             chat.server.create($('#NameCreateProject').val(), $('#DescriptionCreateProject').val());
         });
 
-        
-        $('#AcceptFriend').click(function () { 
-            var name = this.parentNode.firstChild.nextSibling.innerHTML;
 
-            chat.server.addFriend(name);
-            chat.server.friendshipAccepted(name);
-        });
-        $('#DeleteFriend').click(function () {
-            var name = this.parentNode.firstChild.nextSibling.innerHTML;
-            chat.server.deleteFriend(name);
-        });
-        
 
-        $('#SearchInput').keypress(function () {
 
-            let elems = document.getElementsByClassName("friend");
-          
-        });
 
         $('#Search').click(function () {
 
@@ -112,9 +148,22 @@
         
     });
 
+
     function AddFriend(name) {
-        
+
         chat.server.addFriend(name);
+    }
+
+    function AcceptFriend(name) {
+
+       // var name = this.parentNode.firstChild.nextSibling.innerHTML;
+        chat.server.addFriend(name);
+        chat.server.friendshipAccepted(name);
+    }
+    function DeleteFriend(name) {
+
+       // var name = this.parentNode.firstChild.nextSibling.innerHTML;
+        chat.server.deleteFriend(name);
     }
 
 });

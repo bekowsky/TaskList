@@ -2,14 +2,21 @@
 <html>
 <head>
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>@ViewBag.Title – приложение ASP.NET</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 
     @Styles.Render("~/Content/css")
 
 
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
 
+    <script src="~/Scripts/Layout.js"></script>
+    
+   
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/SignalProject.js"></script>
 
 </head>
 
@@ -42,7 +49,7 @@
                         </li>
                         <li class="dropdown">
                             <a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none">
-                                <img id ="NotifyImg" src="\Images/ring5.png">
+                                <img id="NotifyImg" src="\Images/ring5.png">
                             </a>
                             <ul class="dropdown-menu" id="NotificationBtn">
                                 <li><a href="#">Текст  подпункта  подпункта подпункта</a></li>
@@ -82,53 +89,67 @@
                     {
 
                         <div id="vertmenue" class="col-md-4 col-lg-4 navbar-container bg-light">
-                            <!-- Вертикальное меню -->
                             <nav class="navbar navbar-expand-md navbar-light">
-                                <a class="navbar-brand" href="#">Список друзей</a>                  
-                                    <input class="form-control" type="text" id ="SearchInput" placeholder="Search">
-                                    <button class="btn btn-outline-success" id ="Search" >Найти</button>
-                               
+                                <a class="navbar-brand" href="#">Список друзей</a>
+                                <input class="form-control" type="text" id="SearchInput" placeholder="Search">
+                                <button class="btn btn-outline-success" id="Search">Найти</button>
+
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbar">
-                                    <!-- Пункты вертикального меню -->
-                                    <ul class="navbar-nav">
-                                        <p>Друзья:</p>
-                                        @{ foreach (TaskList.Models.Friend friend in ViewBag.Share.Friends)
+                                    <ul class="navbar-nav" id="friend-list">
+
+                                        @{
+                                            string str;
+
+                                            foreach (TaskList.Models.Friend friend in ViewBag.Share.Friends)
                                             {
                                                 if (friend.IsAssept == true)
                                                 {
-                                                    <li class="nav-item">
+
+                                                    str = "friend-" + friend.Name;
+                                                    <li class="nav-item" id=@str>
                                                         <a class="nav-link friend" href="#link-1">@friend.Name</a>
-                                                         <button type="button" class="btn-xs btn-danger" id="DeleteFriend">Удалить</button>
+                                                        <button type="button" class="DeleteFriend btn-xs btn-danger">Удалить</button>
+                                                    </li>
+                                                    <li class="nav-item" >
+                                                        <a class="nav-link friend" href="#link-1">Друг</a>
+                                                        <button type="button" class="DeleteFriend btn-xs btn-danger">Удалить</button>
                                                     </li>
                                                 }
                                             }
-                                                    <li class="nav-divider"></li>
-                                           <p>Заявки:</p>    
+
+                                            <li role="separator" class="divider" id="divider"></li>
+                                            <li class="nav-item">
+                                                <a class="nav-link friend" href="#link-1">Подписчик</a>
+                                                <button type="button" class="AcceptFriend btn-xs btn-success">Принять</button>
+                                            </li>
                                             foreach (TaskList.Models.Friend friend in ViewBag.Share.Friends)
                                             {
                                                 if (friend.IsAssept == false)
                                                 {
-                                                    <li class="nav-item">
+                                                    str = "subscriber-" + friend.Name;
+                                                    <li class="nav-item" id=@str>
                                                         <a class="nav-link friend" href="#link-1">@friend.Name</a>
-                                                        <button type="button" class="btn-xs btn-success" id="AcceptFriend">Принять</button>
+                                                        <button type="button" class="AcceptFriend btn-xs btn-success">Принять</button>
                                                     </li>
+
                                                 }
                                             }
-                                            }
-                                            </ul>
+
+                                        }
+                                    </ul>
                                 </div>
                             </nav>
                         </div>
-                                                }
-                                            }
+                    }
+                }
                 @RenderBody()
 
             </div>
         </div>
-
+   
 
         <hr />
         <footer>
@@ -136,15 +157,7 @@
         </footer>
     </div>
 
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    @Scripts.Render("~/bundles/bootstrap")
-
-    <script src="~/Scripts/Layout.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
-    <script src="~/Scripts/SignalProject.js"></script>
+   
 </body>
 </html>
 

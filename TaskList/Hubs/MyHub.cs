@@ -63,7 +63,7 @@ namespace TaskList.Hubs
             if (Users.ContainsKey(name))
                 Clients.Client(Users[name]).notification(" теперь ваш друг!");
             Clients.Caller.notification(str);
-
+            Clients.Caller.refreshAdding(name);
         }
         public void DeleteFriend(string name)
         {
@@ -73,6 +73,7 @@ namespace TaskList.Hubs
             if (Users.ContainsKey(name))
                 Clients.Client(Users[name]).notification(Context.User.Identity.Name + " и вы больше не друзья!");
             Clients.Caller.notification(name + " и вы больше не друзья!");
+            Clients.Caller.refreshDeletion(name);
         }
       
         public void FindUsers(string text)
