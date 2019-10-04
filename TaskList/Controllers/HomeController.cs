@@ -106,10 +106,9 @@ namespace TaskList.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 ViewBag.Share = db.FindByName(User.Identity.Name);
-            Project project = db.FindByKey(key);
-           
-
-            return View(project);
+            //Project project = db.FindByKey(key);
+            return RedirectToAction("Find", "Home", key);
+            
         }
 
         public ActionResult Profile()

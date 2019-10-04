@@ -23,7 +23,7 @@ namespace TaskList.Hubs
         {
 
             string key = GenRandomString(7) + Convert.ToString(db.Projects.OrderByDescending(x => x.Id).FirstOrDefault().Id);          
-            Project project = new Project { Name = name, Describtion = description, IsDone = false,  Key = key };        
+            Project project = new Project { Name = name, Describtion = description, IsDone = false,  Key = key, Creator = Context.User.Identity.Name, SettingsPermission = "1" , ChangePermission = "1", ReadPermission = "1"};        
             User user =  db.FindByName(Context.User.Identity.Name);
             user.Projects.Add(project);
             db.SaveChanges();
@@ -37,7 +37,15 @@ namespace TaskList.Hubs
             db.SaveChanges();
             Clients.Caller.removeReady();
         }
-        
+
+       public void ProjectsInfo (int num, string watch, string change, string setting)
+        {
+            Project project = db.Projects.Find(num);
+            project.ReadPermission = watch;
+            project.ChangePermission = change;
+            project.SettingsPermission = setting;
+            db.SaveChanges();
+        }
 
         public void AddFriend (string name)
         {
@@ -51,6 +59,31 @@ namespace TaskList.Hubs
             {
                 db.FindByName(name).Friends.Add(new Friend { Name = user.Name, Online = DateTime.MinValue, IsAssept = false, Image = user.Image });
                 db.SaveChanges();
+                if (Users.ContainsKey(name))
+                {
+                    Clients.Client(Users[name]).notification(Context.User.Identity.Name + " подписался на вас !");
+                    Clients.Client(Users[name]).appendSubscriber(Context.User.Identity.Name);
+                }
+            }
+        }
+
+        public void ConfirmFriend(string name)
+        {
+
+            User user = db.FindByName(Context.User.Identity.Name);
+            bool AllowAdding = true;
+            foreach (Friend friend in db.FindByName(name).Friends)
+                if (friend.Name == Context.User.Identity.Name)
+                    AllowAdding = false;
+            if (AllowAdding)
+            {
+                db.FindByName(name).Friends.Add(new Friend { Name = user.Name, Online = DateTime.MinValue, IsAssept = false, Image = user.Image });
+               db.SaveChanges();
+                if (Users.ContainsKey(name))
+                    Clients.Client(Users[name]).appendSubscriber(Context.User.Identity.Name);
+                FriendshipAccepted(name);
+
+
             }
         }
 
@@ -59,21 +92,34 @@ namespace TaskList.Hubs
             db.FindByName(Context.User.Identity.Name).Friends.Single(x => x.Name == name).IsAssept = true;
             db.FindByName(name).Friends.Single(x => x.Name == Context.User.Identity.Name).IsAssept = true;
             db.SaveChanges();
-            string str = " теперь ваш друг";
+            string str = " теперь ваш друг!";
             if (Users.ContainsKey(name))
-                Clients.Client(Users[name]).notification(" теперь ваш друг!");
-            Clients.Caller.notification(str);
-            Clients.Caller.refreshAdding(name);
+            {
+                Clients.Client(Users[name]).notification(Context.User.Identity.Name + str);
+                Clients.Client(Users[name]).removeSubscriber(Context.User.Identity.Name);
+                Clients.Client(Users[name]).appendFriend(Context.User.Identity.Name);
+            }
+            Clients.Caller.notification(name + str);
+
+            Clients.Caller.removeSubscriber(name);
+            Clients.Caller.appendFriend(name);
         }
+
+
         public void DeleteFriend(string name)
         {
             db.FindByName(Context.User.Identity.Name).Friends.Single(x => x.Name == name).IsAssept = false;
             db.FindByName(name).Friends.Remove(db.FindByName(name).Friends.Single(x => x.Name == Context.User.Identity.Name));
             db.SaveChanges();
             if (Users.ContainsKey(name))
+            {
                 Clients.Client(Users[name]).notification(Context.User.Identity.Name + " и вы больше не друзья!");
+                Clients.Client(Users[name]).removeFriend(Context.User.Identity.Name);
+
+            }
             Clients.Caller.notification(name + " и вы больше не друзья!");
-            Clients.Caller.refreshDeletion(name);
+            Clients.Caller.removeFriend(name);
+            Clients.Caller.appendSubscriber(name);
         }
       
         public void FindUsers(string text)
@@ -96,6 +142,17 @@ namespace TaskList.Hubs
             db.SaveChanges();
         }
 
+       public void  saveSettings (string key, string [] arr)
+        {
+            Project project = db.FindByKey(key);
+            User user = db.FindByName(project.Creator);
+            project.Users.Clear();
+            project.Users.Add(user);
+            for (int i = 0; i < arr.Length; i++)
+                project.Users.Add(db.FindByName(arr[i]));
+            db.SaveChanges();
+           
+        }
 
 
 

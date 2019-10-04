@@ -4,7 +4,7 @@ $(function () {
     var chat = $.connection.myHub;
     // Объявление функции, которая хаб вызывает при получении сообщений
     chat.client.createReady = function (key) {
-        document.location.href = "http://localhost:50250/Home/CreateProjects/?key="+ key;
+        document.location.href = "http://localhost:50250/Home/Find/?id="+ key;
        
     };
     chat.client.enter = function () {
@@ -16,9 +16,11 @@ $(function () {
     };
   
     chat.client.returnUsers = function (users) {
+        document.getElementById('search-list').style.display = 'block';
         if (document.getElementsByClassName("SearchUsers")[0] != null) {
             $('.SearchUsers').remove();
         }
+
         var i;
         for (i = 0; i < users.length; i++) {
             var name = users[i];
@@ -27,8 +29,7 @@ $(function () {
             var ButtonElem = document.createElement('button')
             ButtonElem.type = "button";
             ButtonElem.className = "btn btn-success";
-           ButtonElem.onclick = function () { AddFriend(name); };
-
+            ButtonElem.onclick = function () { AddFriend(name); "this.parentNode.style.display = 'none'"; };
             ButtonElem.innerHTML = "Добавить";
             aElem.innerHTML = users[i];
             aElem.href = "#";
@@ -36,17 +37,17 @@ $(function () {
             liElem.appendChild(aElem);
             liElem.appendChild(ButtonElem);
             liElem.className = "nav-item  SearchUsers";
-          
-
-        document.getElementsByClassName("navbar-nav")[1].appendChild(liElem);
+            document.getElementById('search-list').appendChild(liElem);
         }
        
     };
 
-    chat.client.refreshAdding = function (message) {
+    chat.client.appendFriend = function (message) {
+
         var aElem = document.createElement('a');
         aElem.className = "nav-link friend";
         aElem.innerText = message;
+        aElem.href = "#";
         var ButtonElem = document.createElement('button');
         ButtonElem.type = "button";
         ButtonElem.className = "btn-xs btn-danger";
@@ -57,12 +58,10 @@ $(function () {
         liElem.id = "friend-" + message;
         liElem.appendChild(aElem);
         liElem.appendChild(ButtonElem);
-        document.getElementById("friend-list").removeChild(document.getElementById("subscriber-" + message));
-        document.getElementById("friend-list").prepend(document.getElementById("divider"));
-            //appendChild(liElem);
+        $('#friend-list').prepend(liElem);
+        
     };
-
-    chat.client.refreshDeletion = function (message) {
+    chat.client.appendSubscriber = function (message) {
         var aElem = document.createElement('a');
         aElem.className = "nav-link friend";
         aElem.innerText = message;
@@ -76,17 +75,37 @@ $(function () {
         liElem.id = "subscriber-" + message;
         liElem.appendChild(aElem);
         liElem.appendChild(ButtonElem);
+        document.getElementById("friend-list").appendChild(liElem);
 
-        document.getElementById("friend-list").removeChild(document.getElementById("friend-" + message));
-       document.getElementById("friend-list").appendChild(liElem);
-        
     };
+    chat.client.removeFriend = function (message) {
+        if ($('#friend-' + message) != null) {
+            document.getElementById("friend-list").removeChild(document.getElementById("friend-" + message));
+
+        }
+
+    };
+    chat.client.removeSubscriber = function (message) {
+
+        if ($('#subscriber-' + message) != null) {
+            document.getElementById("friend-list").removeChild(document.getElementById("subscriber-" + message));
+
+        }
+    };
+
+
 
 
     chat.client.notification = function (message) {
         var liElem = document.createElement('li');
         var liDevider = document.createElement('li');
-        liElem.innerHTML = message;
+        var aElem = document.createElement('a');
+        var pElem = document.createElement('p');
+        aElem.href = "#";
+        pElem.innerText = message;
+        aElem.appendChild(pElem);
+
+        liElem.appendChild(aElem);
         document.getElementById("NotificationBtn").appendChild(liElem);
         liDevider.className = "divider"
         document.getElementById("NotificationBtn").appendChild(liDevider);
@@ -104,6 +123,15 @@ $(function () {
             var num = this.id.slice(13,15);          
             chat.server.remove(num);
         });
+        $('.BtnInfo').click(function () {
+            var num = this.id;
+           
+            chat.server.projectsInfo(num,$('#WatchPermission').val(), $('#ChangePermission').val(), $('#SettingPermission').val());
+
+            var id = '#InfoProject' + this.id;
+            $(id).modal('toggle');
+        });
+
         $('.CalendarChoice').click(function () {
             var Mounth;
             if (this.id == "BtnPrev" && Mounth > 1) {
@@ -122,8 +150,21 @@ $(function () {
             chat.server.friendshipAccepted(name);
         });
         $('.DeleteFriend').click(function () {
-            var name = this.parentNode.firstChild.nextSibling.innerHTML;
+            var name = this.parentNode.children[0].children[0].textContent;
             chat.server.deleteFriend(name);
+        });
+
+        $('.SaveSettings').click(function () {
+            var key = this.id;
+            var colab = document.getElementById('colaborators');
+            let arr = [];
+            for (let i = 0; i < colab.children.length; i++) {
+                arr[i] = colab.children[i].innerText;
+            }
+
+            chat.server.saveSettings(key, arr);
+      
+            $('#ProjectSettings').modal('toggle');
         });
 
 
@@ -132,12 +173,12 @@ $(function () {
             chat.server.create($('#NameCreateProject').val(), $('#DescriptionCreateProject').val());
         });
 
+        
+        
 
 
-
-
-        $('#Search').click(function () {
-
+        $('#Search').click(function () {           
+            document.getElementById('friend-list').style.display = 'none';
             chat.server.findUsers($('#SearchInput').val());
         });
         $('#AddStep').click(function () {
@@ -148,22 +189,22 @@ $(function () {
         
     });
 
-
+   
     function AddFriend(name) {
 
         chat.server.addFriend(name);
+        $(this).parent().hide();
     }
 
     function AcceptFriend(name) {
 
-       // var name = this.parentNode.firstChild.nextSibling.innerHTML;
-        chat.server.addFriend(name);
-        chat.server.friendshipAccepted(name);
+        chat.server.confirmFriend(name);
     }
     function DeleteFriend(name) {
 
-       // var name = this.parentNode.firstChild.nextSibling.innerHTML;
+      
         chat.server.deleteFriend(name);
+
     }
 
 });

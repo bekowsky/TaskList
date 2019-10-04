@@ -7,10 +7,69 @@
 @model TaskList.Models.Project
 
 <input type="hidden" id="ProjectKey" value="@Model.Key">
-<div class="col-md-8">
+@{ if (Model.ReadPermission != "3" || ViewBag.Share.Name == Model.Creator)
+    {
 
-    <h2 class="col-md-offset-4">@Model.Name <button type="button" style="height:48px" data-toggle="modal" data-target="#ProjectSettings" class="btn btn-info col-md-offset-4">Свойства</button></h2>
-  
+<div class="col-md-8">
+    @{
+        if (Model.SettingsPermission != "3" || ViewBag.Share.Name == Model.Creator)
+        {
+            <h2 class="col-md-offset-4">@Model.Name <button type="button" style="background-color:white; border:none" data-toggle="modal" data-target="#ProjectSettings" class="col-md-offset-4"><img src="\Images/setting_icon.png"></button></h2>
+        }
+            <div class="modal fade" id=ProjectSettings tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title" id="exampleModalLabel">Настройки проекта</h2>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group" style="padding-left:20px">
+                                <label for="ChangePermission">Выберите участников проекта</label>
+                                <div id="colaborators">
+                                    @{
+                                        foreach (TaskList.Models.User user in Model.Users)
+                                        {
+                                            if (user.Name != Model.Creator)
+                                            {
+                                        <p id= "colab_@user.Name">@user.Name<button onclick="deleteColab('@user.Name')" type="button" style="background-color:white; border:none"><img src="\Images/delete_icon.png"></button></p>
+                                            }
+                                            }
+                                        }
+
+                                </div>
+                                <select style="min-width:90%" id="ChangePermission" class="browser-default custom-select">
+
+                                    @{
+
+                                        foreach (TaskList.Models.Friend friend in ViewBag.Share.Friends)
+                                        {
+
+                                            <option id="friend_@friend.Name" value=@friend.Name>@friend.Name</option>
+                                        }
+
+                                    }
+                                </select>
+                               <button type="button" class="btn-primary" id="AddColaborators">Добавить</button>
+
+                             
+
+                             
+
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Отменить</button>
+                            <button type="button"  class="SaveSettings btn btn-success" id=@Model.Key>Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    }
     <hr>
     <h3 class="col-md-offset-4">@Model.Describtion</h3>
 
@@ -35,43 +94,30 @@
 
         </div>
     </div>
-    <div class="col-md-5 col-md-offset-3">
+    @{
+        if (Model.ChangePermission != "3" || ViewBag.Share.Name == Model.Creator)
+        {
+            <div class="col-md-5 col-md-offset-3">
 
-        <textarea class="form-control" id="InputArea" rows="3"></textarea>
-    </div>
-    <div class="col-md-1">
-        <button type="button" class="btn btn-success btn-lg" id="AddStep">Добавить</button>
-    </div>
-
+                <textarea class="form-control" id="InputArea" rows="3"></textarea>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-success btn-lg" id="AddStep">Добавить</button>
+            </div>
+        }
+        <script src="~/Scripts/CreateProjects.js"></script>
+    }
 
 </div>
 
-<div class="modal fade" id="ProjectSettings" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title" id="exampleModalLabel">Создание проекта</h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h3>Название проекта</h3>
-                <input class="form-control" id="NameCreateProject" style="height:auto" type="text" placeholder="Search">
-            </div>
-            <div class="modal-body">
-                <h3>Описание</h3>
-                <textarea class="form-control" id="DescriptionCreateProject" rows="3"></textarea>
-                <h3>Дата</h3>
-                <input class="form-control" type="date" value="2019-02-11" id="example-date-input">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Отменить</button>
-                <button type="button" class="btn btn-success" id="BtnCreateProjects">Создать</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
-<script src="~/Scripts/CreateProjects.js"></script>
+        } else
+        {
+
+                   <p>У вас нет прав на просмотр проекта</p>
+
+                }
+}
+
+

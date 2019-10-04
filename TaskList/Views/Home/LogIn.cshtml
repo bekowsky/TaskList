@@ -7,10 +7,7 @@
 
 <div class="col-md-offset-5" style="text-align:center">
 
-    @{
-                if (Model==null)
-                {
-                    
+
             <h2>Вход</h2>
             <br>
             <form action="" method="post">
@@ -22,14 +19,9 @@
                 <button class=" btn btn-success" type="submit">Войти</button>
                 <button class=" btn btn-warning" onClick='location.href="http://localhost:50250/Home/SignUp"' type="submit">Зарегистрироваться</button>
             </form>
-        }
-        else
-        {
-            <input type="hidden" name="name" id="name" value=@Model.Name>
-            <input type="hidden" name="password" id="password" value=@Model.Password>
-            <h3>@Model.Name Вы успешно вошли!</h3>
-        }
-    }
+        
+
+    
 </div>
 <script src="~/Scripts/Login.js"></script>
 

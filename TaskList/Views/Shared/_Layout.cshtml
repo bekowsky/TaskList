@@ -3,17 +3,19 @@
 <head>
 
     <title>@ViewBag.Title – приложение ASP.NET</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-
-    @Styles.Render("~/Content/css")
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/bootstrap")
 
     <script src="~/Scripts/Layout.js"></script>
-    
-   
+
+
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/SignalProject.js"></script>
@@ -51,10 +53,7 @@
                             <a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none">
                                 <img id="NotifyImg" src="\Images/ring5.png">
                             </a>
-                            <ul class="dropdown-menu" id="NotificationBtn">
-                                <li><a href="#">Текст  подпункта  подпункта подпункта</a></li>
-
-                            </ul>
+                            <ul class="dropdown-menu" id="NotificationBtn"></ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="http://localhost:50250/Home/LogOut">Выйти</a>
@@ -91,9 +90,10 @@
                         <div id="vertmenue" class="col-md-4 col-lg-4 navbar-container bg-light">
                             <nav class="navbar navbar-expand-md navbar-light">
                                 <a class="navbar-brand" href="#">Список друзей</a>
-                                <input class="form-control" type="text" id="SearchInput" placeholder="Search">
-                                <button class="btn btn-outline-success" id="Search">Найти</button>
-
+                                <div class="row">
+                                    <input class="form-control" style="max-width:150px" type="text" id="SearchInput" oninput="sorting()" placeholder="Найти">
+                                    <button type="button" style="background-color:#F8F9FA; border:none" id="Search"><img src="\Images/search_icon.png"></button>
+                                </div>
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
@@ -102,29 +102,29 @@
 
                                         @{
                                             string str;
-
+                                            string target;
                                             foreach (TaskList.Models.Friend friend in ViewBag.Share.Friends)
                                             {
                                                 if (friend.IsAssept == true)
                                                 {
 
                                                     str = "friend-" + friend.Name;
+                                                    target = "#message_" + friend.Name;
                                                     <li class="nav-item" id=@str>
-                                                        <a class="nav-link friend" href="#link-1">@friend.Name</a>
+                                                        <div class="row">
+                                                            <a class="nav-link friend col-md-4" href="#link-1">@friend.Name</a>
+                                                            <button type="button" data-toggle="modal" data-target=@target class="col-md-4 col-md-offset-8" style="background-color:#F8F9FA; border:none"><img src="\Images/message_icon.png"></button>
+                                                        </div>
                                                         <button type="button" class="DeleteFriend btn-xs btn-danger">Удалить</button>
                                                     </li>
-                                                    <li class="nav-item" >
-                                                        <a class="nav-link friend" href="#link-1">Друг</a>
-                                                        <button type="button" class="DeleteFriend btn-xs btn-danger">Удалить</button>
-                                                    </li>
+                                                    str = "message" + friend.Name;
+
+
+
+
                                                 }
                                             }
 
-                                            <li role="separator" class="divider" id="divider"></li>
-                                            <li class="nav-item">
-                                                <a class="nav-link friend" href="#link-1">Подписчик</a>
-                                                <button type="button" class="AcceptFriend btn-xs btn-success">Принять</button>
-                                            </li>
                                             foreach (TaskList.Models.Friend friend in ViewBag.Share.Friends)
                                             {
                                                 if (friend.IsAssept == false)
@@ -135,29 +135,78 @@
                                                         <button type="button" class="AcceptFriend btn-xs btn-success">Принять</button>
                                                     </li>
 
+
                                                 }
                                             }
 
                                         }
                                     </ul>
+
+                                    <ul class="navbar-nav" id="search-list"></ul>
                                 </div>
                             </nav>
                         </div>
-                    }
+                                            }
                 }
                 @RenderBody()
 
             </div>
         </div>
-   
+
 
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
         </footer>
     </div>
+    @{ 
+            string send_name;
+            string btn_send;
+            foreach (TaskList.Models.Friend friend in ViewBag.Share.Friends)
+            {
+                send_name = "message_" + friend.Name;
+                btn_send = "send_" + friend.Name;
+    <div class="modal fade" id=@send_name tabindex="-1" role="dialog" style="max-height:500px" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title" id="exampleModalLabel">Диалог с @friend.Name</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
 
-   
+                    <p>Здавствуй</p>
+                    <p style="text-align:left;background-color:whitesmoke">petuch</p>
+                    <p style="text-align:left;background-color:whitesmoke">Привет</p>
+                    <p>Здавствуй</p>
+                    <p style="text-align:right; background-color:whitesmoke ">petuch</p>
+                    <p>Здавствуй</p>
+                    <p style="text-align:left;background-color:whitesmoke">petuch</p>
+                    <p style="text-align:left;background-color:whitesmoke">Привет</p>
+                    <p>Здавствуй</p>
+                    <p style="text-align:right; background-color:whitesmoke ">petuch</p>
+                    <p>Здавствуй</p>
+                    <p style="text-align:left;background-color:whitesmoke">petuch</p>
+                    <p style="text-align:left;background-color:whitesmoke">Привет</p>
+                    <p>Здавствуй</p>
+                    <p style="text-align:right; background-color:whitesmoke ">petuch</p>
+                    <p>Здавствуй</p>
+                    <p style="text-align:left;background-color:whitesmoke">petuch</p>
+                    <p style="text-align:left;background-color:whitesmoke">Привет</p>
+                    <p>Здавствуй</p>
+                    <p style="text-align:right; background-color:whitesmoke ">petuch</p>
+                </div>
+                <div class="modal-footer">
+                    <input class="form-control" id="Message_Input" style="min-width:80%" type="text" placeholder="Search">
+                    <button type="button" id=btn style="background-color:#F8F9FA; border:none"><img src="\Images/send_icon.png"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+            }
+        }
 </body>
 </html>
 
@@ -196,4 +245,13 @@
         .navbar-container .navbar-nav {
             flex-direction: column !important;
         }
+
+    .modal-dialog {
+        overflow-y: initial !important
+    }
+
+    .modal-body {
+        height: 250px;
+        overflow-y: auto;
+    }
 </style>

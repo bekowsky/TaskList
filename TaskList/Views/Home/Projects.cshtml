@@ -28,14 +28,14 @@
 
                 <div class="col-md-1">
                     <div class="btn-group-vertical">
-                        
-                            
-                          
-                                <button type="button" style="height:48px" data-toggle="modal" data-target=@id class="btn btn-danger">Удалить</button>
-                                <button type="button" style="height:48px" data-toggle="modal" data-target=@id2 class="btn btn-info">Свойства</button>
-                                <button type="button" style="height:48px" data-toggle="modal" data-target=@id3 class="btn btn-warning">Изменить</button>
 
-                       
+
+
+                        <button type="button" style="height:48px" data-toggle="modal" data-target=@id class="btn btn-danger">Удалить</button>
+                        <button type="button" style="height:48px" data-toggle="modal" data-target=@id2 class="btn btn-info">Свойства</button>
+                        <button type="button" style="height:48px" data-toggle="modal" data-target=@id3 class="btn btn-warning">Изменить</button>
+
+
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         
         }
         }
-
+     
 
         <button type="button" data-toggle="modal" data-target="#CreateProject" class="btn btn-success btn-lg col-xs-offset-4">Создать проект</button>
     </div>
@@ -62,13 +62,13 @@
             </div>
             <div class="modal-body">
                 <h3>Название проекта</h3>
-                <input class="form-control" id="NameCreateProject" style="height:auto" type="text" placeholder="Search">
+                <input class="form-control" id="NameCreateProject" style="min-width:90%" type="text" placeholder="Search">
             </div>
             <div class="modal-body">
                 <h3>Описание</h3>
-                <textarea class="form-control" id="DescriptionCreateProject" rows="3"></textarea>
+                <textarea class="form-control" id="DescriptionCreateProject" style="min-width:90%" rows="3"></textarea>
                 <h3>Дата</h3>
-                <input class="form-control" type="date" value="2019-02-11" id="example-date-input">
+                <input class="form-control" type="date" value="2019-02-11"  style="min-width:90%" id="example-date-input">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Отменить</button>
@@ -125,11 +125,11 @@
                     </div>
                     <div class="modal-body">
                         <h3>Название проекта</h3>
-                        <input class="form-control" id="NameChangeProject" value="@project.Name" style="height:auto" type="text" placeholder="Search">
+                        <input class="form-control" id="NameChangeProject" value="@project.Name" style="min-width:90%" type="text" placeholder="Search">
                     </div>
                     <div class="modal-body">
                         <h3>Описание проекта</h3>
-                        <textarea class="form-control" id="DescriptionChangeProject" rows="3" >@project.Describtion</textarea>
+                        <textarea class="form-control" id="DescriptionChangeProject" rows="3" style="min-width:90%" >@project.Describtion</textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Отменить</button>
@@ -143,8 +143,15 @@
     }
 }
 
+
+
+
+       
+
 @{
   
+
+
 
     foreach (TaskList.Models.Project project in Model.Projects)
     {
@@ -153,18 +160,48 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title" id="exampleModalLabel">Информация</h2>
+                        <h2 class="modal-title" id="exampleModalLabel">ИНформация</h2>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    id проекта - @project.Id
+                    
+                    <div class="form-group" style="padding-left:20px" >
+                        <label for="WatchPermission">Кто может просматривать проект</label>
+                        <select style="min-width:90%" id="WatchPermission" class="browser-default custom-select">
+
+                            <option selected value="1">Все, у кого есть ссылка</option>
+                            <option value="2">Пользователи, которых вы добавили</option>
+                            <option value="3">Только вы</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="padding-left:20px">
+                        <label for="ChangePermission">Кто может изменять проект</label>
+                        <select style="min-width:90%" id="ChangePermission" class="browser-default custom-select">
+
+                            <option  value="1">Все, у кого есть ссылка</option>
+                            <option selected value="2">Пользователи, которых вы добавили</option>
+                            <option value="3">Только вы</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="padding-left:20px">
+                        <label for="SettingPermission">Кто может менять настройки проекта</label>
+                        <select style="min-width:90%" id="SettingPermission" class="browser-default custom-select">
+
+                            <option selected value="1">Все, у кого есть ссылка</option>
+                            <option value="2">Пользователи, которых вы добавили</option>
+                            <option selected value="3">Только вы</option>
+                        </select>
+                    </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Отменить</button>
-                        <button type="button" class="btn btn-success" id="BtnInfoProject">Сохранить</button>
+                        <button type="button" class="BtnInfo btn btn-success" id="@project.Id">Сохранить</button>
                     </div>
                 </div>
-            </div>
+                </div>
         </div>
         <script src="~/Scripts/Projects.js"></script>
 
