@@ -12,17 +12,7 @@ namespace TaskList.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Row> Rows { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer<TaskContext>(null);
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Project>().HasMany(c => c.Users)
-                .WithMany(s => s.Projects)
-                .Map(t => t.MapLeftKey("Project_Id")
-                .MapRightKey("User_Id")
-                .ToTable("UserProjects"));
-        }
+      
 
         public bool IsCorrect(string name, string password)
         {

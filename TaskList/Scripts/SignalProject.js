@@ -14,7 +14,11 @@ $(function () {
         document.location.href = "http://localhost:50250/Home/Projects";
 
     };
-  
+
+    chat.client.changeReady = function () {
+        document.location.href = "http://localhost:50250/Home/Projects";
+
+    };
     chat.client.returnUsers = function (users) {
         document.getElementById('search-list').style.display = 'block';
         if (document.getElementsByClassName("SearchUsers")[0] != null) {
@@ -97,6 +101,7 @@ $(function () {
 
 
     chat.client.notification = function (message) {
+        $('#NoNotifications').hide();
         var liElem = document.createElement('li');
         var liDevider = document.createElement('li');
         var aElem = document.createElement('a');
@@ -114,6 +119,10 @@ $(function () {
         audio.src = "\\"+"Sounds/pam-pam.mp3";
         audio.autoplay = true;
 
+    };
+
+    chat.client.changeRowState = function () {
+        
     };
     
     $.connection.hub.start().done(function () {
@@ -167,6 +176,14 @@ $(function () {
             $('#ProjectSettings').modal('toggle');
         });
 
+        $('.RowCheckbox').click(function () {
+            if ($(this).is(':checked')){
+            chat.server.completeMiniTask($('#ProjectKey').val(), (this).id.substr(11));
+        } else {
+            chat.server.cancelMiniTask($('#ProjectKey').val(), (this).id.substr(11));
+        }
+
+        });
 
         $('#BtnCreateProjects').click(function () {
             
@@ -174,7 +191,11 @@ $(function () {
         });
 
         
-        
+        $('#BtnEditProject').click(function () {
+            var key = this.parentNode.id;
+            chat.server.change($('#NameChangeProject').val(), $('#DescriptionChangeProject').val(), key);
+        });
+
 
 
         $('#Search').click(function () {           

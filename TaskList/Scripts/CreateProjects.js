@@ -80,7 +80,8 @@ window.onload = function () {
     $("#LayoutProjects")
         .parent()
         .addClass("active");
-       
+
+
         
     var select = document.getElementById('ChangePermission');
     for (let j = 0; j < $('#colaborators').children().length; j++) {

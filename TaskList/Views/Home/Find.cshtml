@@ -29,17 +29,26 @@
                             <div class="form-group" style="padding-left:20px">
                                 <label for="ChangePermission">Выберите участников проекта</label>
                                 <div id="colaborators">
-                                    @{
-                                        foreach (TaskList.Models.User user in Model.Users)
+                                    @{if (Model.Users.Count > 0)
                                         {
-                                            if (user.Name != Model.Creator)
+                                            foreach (TaskList.Models.User user in Model.Users)
                                             {
-                                        <p id= "colab_@user.Name">@user.Name<button onclick="deleteColab('@user.Name')" type="button" style="background-color:white; border:none"><img src="\Images/delete_icon.png"></button></p>
-                                            }
+                                                if (user.Name != Model.Creator)
+                                                {
+                                                    <p id="colab_@user.Name">@user.Name<button onclick="deleteColab('@user.Name')" type="button" style="background-color:white; border:none"><img src="\Images/delete_icon.png"></button></p>
+                                                }
                                             }
                                         }
+                                        else
+                                        {
+                                            <p>У вас нет друзей</p>
+                                        }
+                                    }
 
                                 </div>
+                                @{ 
+                                    if (ViewBag.Share != null)
+                                    {
                                 <select style="min-width:90%" id="ChangePermission" class="browser-default custom-select">
 
                                     @{
@@ -50,16 +59,16 @@
                                             <option id="friend_@friend.Name" value=@friend.Name>@friend.Name</option>
                                         }
 
-                                    }
-                                </select>
-                               <button type="button" class="btn-primary" id="AddColaborators">Добавить</button>
-
-                             
-
-                             
+                                        }
+                                    </select>
+                                    <button type="button" class="btn-primary" id="AddColaborators">Добавить</button>
+                                            }
+                                        }
 
 
-                            </div>
+
+
+                                </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Отменить</button>
@@ -75,7 +84,7 @@
 
 
     <div class="row">
-        <div class="col-md-6 col-md-offset-2" id="TextArea">
+        <div class="col-md-10" id="TextArea">
             @{ if (Model.Rows == null)
                 {
                     <h2>Список целей пуст</h2>
@@ -83,9 +92,20 @@
                 else
                 {
                     int i = 0;
+                    string rowid = "";
                     foreach (TaskList.Models.Row row in Model.Rows)
                     {
-                        <p id="step" @i>@row.Text</p>
+                        rowid = "RowCheckbox" + row.Id;
+                        <p class="col-md-10" id="step" @i>@row.Text</p>
+                        if (row.IsDone == true)
+                        {
+                            <input type="checkbox" class="col-md-2 form-check-input RowCheckbox" checked="checked" id=@rowid @row.Id>
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="col-md-2 form-check-input RowCheckbox"  id=@rowid @row.Id>
+                        }
+                        i++;
                     }
                 }
             }

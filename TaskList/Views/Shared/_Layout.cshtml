@@ -53,7 +53,9 @@
                             <a id="drop1" href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none">
                                 <img id="NotifyImg" src="\Images/ring5.png">
                             </a>
-                            <ul class="dropdown-menu" id="NotificationBtn"></ul>
+                            <ul class="dropdown-menu" id="NotificationBtn">
+                                <li id="NoNotifications">Новых уведомлений нет</li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="http://localhost:50250/Home/LogOut">Выйти</a>
@@ -160,6 +162,8 @@
         </footer>
     </div>
     @{ 
+        if (ViewBag.Share != null)
+        {
             string send_name;
             string btn_send;
             foreach (TaskList.Models.Friend friend in ViewBag.Share.Friends)
@@ -178,25 +182,10 @@
                 <div class="modal-body">
 
                     <p>Здавствуй</p>
-                    <p style="text-align:left;background-color:whitesmoke">petuch</p>
+                    <p style="text-align:left;background-color:whitesmoke">проверка</p>
                     <p style="text-align:left;background-color:whitesmoke">Привет</p>
                     <p>Здавствуй</p>
-                    <p style="text-align:right; background-color:whitesmoke ">petuch</p>
-                    <p>Здавствуй</p>
-                    <p style="text-align:left;background-color:whitesmoke">petuch</p>
-                    <p style="text-align:left;background-color:whitesmoke">Привет</p>
-                    <p>Здавствуй</p>
-                    <p style="text-align:right; background-color:whitesmoke ">petuch</p>
-                    <p>Здавствуй</p>
-                    <p style="text-align:left;background-color:whitesmoke">petuch</p>
-                    <p style="text-align:left;background-color:whitesmoke">Привет</p>
-                    <p>Здавствуй</p>
-                    <p style="text-align:right; background-color:whitesmoke ">petuch</p>
-                    <p>Здавствуй</p>
-                    <p style="text-align:left;background-color:whitesmoke">petuch</p>
-                    <p style="text-align:left;background-color:whitesmoke">Привет</p>
-                    <p>Здавствуй</p>
-                    <p style="text-align:right; background-color:whitesmoke ">petuch</p>
+                    
                 </div>
                 <div class="modal-footer">
                     <input class="form-control" id="Message_Input" style="min-width:80%" type="text" placeholder="Search">
@@ -205,6 +194,7 @@
             </div>
         </div>
     </div>
+                }
             }
         }
 </body>

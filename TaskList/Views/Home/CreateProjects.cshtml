@@ -18,20 +18,31 @@
                 <div class="col-md-6 col-md-offset-2" id="TextArea">
                     @{ if (Model.Rows == null)
                         {
-                        <h2>Список целей пуст</h2>
-                        } else
+                            <h2>Список целей пуст</h2>
+                        }
+                        else
                         {
                             int i = 0;
                             foreach (TaskList.Models.Row row in Model.Rows)
                             {
-                                <p id="step"@i class="text-center">@row.Text</p>
+                                <p id="step" @i class="col-md-4">@row.Text</p>
+                                if (row.IsDone == true)
+                                {
+                                    <input type="checkbox" class="col-md-2 form-check-input" id="exampleCheck1" checked="checked">
+                                }
+                                else
+                                {
+                                    <input type="checkbox" class="col-md-2 form-check-input" id="exampleCheck1" checked="">
+                                }
+
+
                             }
                         }
-                        }
+                    }
                 </div>
-    <div class="col-md-1" id="BtnArea">
-        
-    </div>
+         <div class="col-md-1" id="BtnArea">
+            
+             </div>
                 </div>
     <div class="col-md-5 col-md-offset-3">
         

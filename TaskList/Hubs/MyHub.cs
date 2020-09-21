@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -22,13 +23,43 @@ namespace TaskList.Hubs
         public void Create(string name, string description)
         {
 
-            string key = GenRandomString(7) + Convert.ToString(db.Projects.OrderByDescending(x => x.Id).FirstOrDefault().Id);          
-            Project project = new Project { Name = name, Describtion = description, IsDone = false,  Key = key, Creator = Context.User.Identity.Name, SettingsPermission = "1" , ChangePermission = "1", ReadPermission = "1"};        
+            string key = GenRandomString(7);
+                //+ Convert.ToString(db.Projects.OrderByDescending(x => x.Id).FirstOrDefault().Id);          
+            Project project = new Project { Name = name, Describtion = description, IsDone = false, DateEnd = DateTime.MinValue, DateStart = DateTime.MinValue, Key = key, Creator = Context.User.Identity.Name, SettingsPermission = "1" , ChangePermission = "1", ReadPermission = "1"};        
             User user =  db.FindByName(Context.User.Identity.Name);
             user.Projects.Add(project);
             db.SaveChanges();
             Clients.Caller.createReady(key);
         }
+
+        public void Change(string name, string description, string key)
+        {
+
+
+            //+ Convert.ToString(db.Projects.OrderByDescending(x => x.Id).FirstOrDefault().Id);          
+            Project project = db.Projects.First(x => x.Key == key);
+            project.Name = name;
+            project.Describtion = description;            
+            db.SaveChanges();
+            Clients.Caller.changeReady(key);
+        }
+        public void CompleteMiniTask(string key, string rowid)
+        {
+            Project project = db.Projects.Single(x => x.Key == key);
+            project.Rows.Single(x => x.Id == Convert.ToInt32( rowid)).IsDone = true;
+            db.SaveChanges();
+            
+            Clients.Others.ChangeRowState();
+        }
+
+        public void CancelMiniTask(string key, string rowid)
+        {
+            Project project = db.Projects.Single(x => x.Key == key);
+            project.Rows.Single(x => x.Id == Convert.ToInt32(rowid)).IsDone = false;
+            db.SaveChanges();
+            Clients.Others.ChangeRowState();
+        }
+
 
         public void Remove (int num)
         {
@@ -57,7 +88,7 @@ namespace TaskList.Hubs
                     AllowAdding = false;
             if (AllowAdding)
             {
-                db.FindByName(name).Friends.Add(new Friend { Name = user.Name, Online = DateTime.MinValue, IsAssept = false, Image = user.Image });
+                db.FindByName(name).Friends.Add(new Friend { Name = user.Name,  IsAssept = false, Image = user.Image });
                 db.SaveChanges();
                 if (Users.ContainsKey(name))
                 {
@@ -77,7 +108,7 @@ namespace TaskList.Hubs
                     AllowAdding = false;
             if (AllowAdding)
             {
-                db.FindByName(name).Friends.Add(new Friend { Name = user.Name, Online = DateTime.MinValue, IsAssept = false, Image = user.Image });
+                db.FindByName(name).Friends.Add(new Friend { Name = user.Name, IsAssept = false, Image = user.Image });
                db.SaveChanges();
                 if (Users.ContainsKey(name))
                     Clients.Client(Users[name]).appendSubscriber(Context.User.Identity.Name);
